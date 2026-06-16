@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { GoogleGenAI } from "@google/genai";
 import * as mammoth from "mammoth";
-import { articlesData } from "../src/data/articlesData";
+import { articlesData } from "../src/data/articlesData.js";
 import dotenv from 'dotenv';
 
 try {

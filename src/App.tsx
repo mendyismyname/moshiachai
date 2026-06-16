@@ -95,6 +95,11 @@ export default function App() {
          {activeTab === 'profile' && <ProfileView />}
       </main>
 
+      {/* Footer */}
+      <footer className="w-full py-4 text-center text-xs text-zinc-400 pb-28 sm:pb-4">
+        made by Mendy S
+      </footer>
+
       {/* Floating Chat Button */}
       <button 
         onClick={() => setIsChatOpen(!isChatOpen)}
