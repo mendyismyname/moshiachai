@@ -33,8 +33,15 @@ export function ArticlesView({ onNavigate, initialArticleId }: { onNavigate?: (t
     }
     
     fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
+      .then(async (res) => {
+        let data;
+        let text = await res.text();
+        try {
+          data = JSON.parse(text);
+        } catch (e) {
+          throw new Error(`Invalid JSON response (Status ${res.status}): ` + text.substring(0, 100));
+        }
+        
         if (data.error) {
           setErrorMsg(data.error);
           setArticles([]);
@@ -45,7 +52,7 @@ export function ArticlesView({ onNavigate, initialArticleId }: { onNavigate?: (t
       })
       .catch((err) => {
         console.error(err);
-        setErrorMsg('Failed to connect to backend.');
+        setErrorMsg('Failed to connect to backend: ' + err.message);
       })
       .finally(() => setLoading(false));
   };
@@ -124,8 +131,17 @@ export function ArticlesView({ onNavigate, initialArticleId }: { onNavigate?: (t
           mimeType: article.mimeType
         }),
       });
-      const data = await res.json();
-      setTranslatedText(data.translation || 'Translation failed.');
+      const text = await res.text();
+      try {
+        const data = JSON.parse(text);
+        if (data.error) {
+          setTranslatedText(`Error: ${data.error}`);
+        } else {
+          setTranslatedText(data.translation || 'Translation failed.');
+        }
+      } catch (e) {
+         setTranslatedText(`Server Error (${res.status}): ${text.substring(0, 100)}`);
+      }
     } catch (e) {
       console.error(e);
       setTranslatedText('Error translating text.');
