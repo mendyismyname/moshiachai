@@ -1,0 +1,22 @@
+export const YOUTUBE_VIDEOS = [
+  "bC7NoMa1u1E", "sY3ZUD542_w", "haQUarm5Xpo", "QD8F37M9mJk", "bHnbxqhptCw",
+  "EtdPFRDnEZo", "Zx8V9R2oLiQ", "5jONC9Wh6Ws", "8rZvqR1YvDA", "q4HWkF_NAmo",
+  "8bjOqNJmdUg", "r6buk-GS2jE", "X97H0kksAls", "lsdZOHkyBOA", "7CdrZTIlv5U",
+  "k-D2BSllCD0", "7oecqKlhWxE", "e84wwmudF1w", "RxRt35FIEto", "DOPIBlpf9lA",
+  "cD6Gvx1Fois", "0TDyuTfvBhk", "yw9W78m5vmE", "YckeRM72uzY", "Q2976qXphKU",
+  "R7sNI5JvU5M", "ufwjgNDc5GI", "xWGLYwW7lNs", "y1XoUO_K8Gk", "Hs2xan_Og7E",
+  "0aMN8JyKLtU", "-Ix9mwKmr3Y", "XiWmdLzpUZE", "j2VEYwmeF-c", "0ljWkRfUTbs",
+  "0Av-J8cdSYw", "G3aekkNRFV0", "Wsh3ydHbmkI", "-c3lKjDN1J4", "zCSulxFfqek",
+  "qxubLfP0dnI", "9AV8mpoaxi8", "H3ZVG2DgOLw", "f1cwuEg8Ia0", "55X1B-JTvKc",
+  "dgBJOWXQGas", "AfeQX0bPWcg", "_-FJmEj0kt0", "Q2Qeo48tl1o", "GTTBdhezcew",
+  "z7tFXxmCTk0", "NoiP01Yg_78", "qxstXuJDu78", "m9MnTg1wqrU", "GY2zY7Z0Jic",
+  "klA2UKIu4ek", "-_T44xYZzUY", "SFtuoyUzkUQ", "4DUudBvUKbo", "XlcezadyriI",
+  "mg1fWUsqwTc", "fMUME1IjWEs", "GJdJAoDryBQ", "QAlgT3auQc8", "xyDIrqYgSV0",
+  "0ulPu_UBkT0", "BzkfF7pJGhQ", "_Y2MwW_7Jgo", "EXb0U2ATcBU", "ws2HBaxiNcs",
+  "79W_4pbVHKM", "IVqz1sEXQZQ", "474NgFFXqqA", "1znjW1Xk-pI", "Lvo31JT5j8s",
+  "h7V7_oblELQ", "w8M7gzDIRb0", "QtSzV1jyVqs", "V1oM_TyoMP4", "paKFHwHT_CY",
+  "Jru5W8Dq0MY", "30Vx8ktv-aM", "0RawfDCb3eY", "P7Yw3aeHVwI", "-ZX53ZnOelM",
+  "TjHWf88oEqc", "U--xPZmy8rQ", "S19Z3-YOXy4", "AGT_9BIA-M4", "XqNksLsmpp0",
+  "anGhuMnjnGI", "m6pIgQCwxnw", "StOJ7db7euU", "0i_utZzM3Cc", "A_fYQWwO2Cg",
+  "oCIvVAoZgq0", "YUqkJJuaFHg", "DvG4GIjAE68"
+];

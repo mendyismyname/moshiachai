@@ -1,0 +1,8 @@
+{
+  "name": "Moshiach.ai",
+  "description": "An AI-powered learning platform with Hebrew-to-English article translation, structured courses on Moshiach and Geulah, chatbot, and curated podcasts.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
