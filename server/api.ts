@@ -2,9 +2,7 @@ import { Router } from "express";
 import { GoogleGenAI } from "@google/genai";
 import * as mammoth from "mammoth";
 import dotenv from "dotenv";
-import fs from "fs";
-import path from "path";
-import articlesData from "../src/data/articles.json" with { type: "json" };
+import { articlesData } from "../src/data/articlesData";
 
 dotenv.config();
 
