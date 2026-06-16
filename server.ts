@@ -178,8 +178,9 @@ app.get("/api/articleContent", async (req, res) => {
     const { id, mimeType } = req.query;
     if (!id) return res.status(400).json({ error: "Missing document ID." });
     
-    const apiKey = process.env.GOOGLE_DRIVE_API_KEY;
-    if (!apiKey) return res.status(500).json({ error: "GOOGLE_DRIVE_API_KEY is not set." });
+    // API key is only strictly required for certain formats (like txt/docx files or folder queries). 
+    // Google Docs use public export URL without API key.
+    const apiKey = process.env.GOOGLE_DRIVE_API_KEY || '';
 
     const content = await getDocumentText(id as string, (mimeType as string) || '', apiKey);
     res.json({ content });
@@ -198,10 +199,7 @@ app.post("/api/translate", async (req, res) => {
         return res.status(400).json({ error: "ID and title expected." });
     }
 
-    const apiKey = process.env.GOOGLE_DRIVE_API_KEY;
-    if (!apiKey) {
-      return res.status(500).json({ error: "GOOGLE_DRIVE_API_KEY is not set." });
-    }
+    const apiKey = process.env.GOOGLE_DRIVE_API_KEY || '';
 
     // Fetch original content from drive
     let originalText = await getDocumentText(id, mimeType || '', apiKey);
