@@ -1,10 +1,11 @@
 import express from "express";
 import path from "path";
 import fs from "fs";
-import { createServer as createViteServer } from "vite";
+import { fileURLToPath } from "url";
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
 import * as mammoth from "mammoth";
+import articlesData from "./src/data/articles.json";
 
 dotenv.config();
 
@@ -98,7 +99,6 @@ app.get("/api/articles", async (req, res) => {
     // Serve from static file for the default folder
     if ((folderId === defaultFolderId || folderId.startsWith('cached_folder_')) && forceSync !== 'true') {
       try {
-        const articlesData = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'src/data/articles.json'), 'utf-8'));
         const allArticles = articlesData.articles;
         
         if (folderId === defaultFolderId) {
@@ -310,6 +310,7 @@ app.post("/api/chat", async (req, res) => {
 
 if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {
   async function startServer() {
+    const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { 
         middlewareMode: true,
@@ -326,7 +327,7 @@ if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {
 } else {
   const distPath = path.join(process.cwd(), 'dist');
   app.use(express.static(distPath));
-  app.get('*all', (req, res) => {
+  app.get('*', (req, res) => {
     res.sendFile(path.join(distPath, 'index.html'));
   });
   

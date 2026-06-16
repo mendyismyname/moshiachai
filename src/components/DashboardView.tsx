@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { YOUTUBE_VIDEOS } from '../data/videos';
 import { ARTICLES } from '../data/articles';
 
-export function DashboardView({ onNavigate }: { onNavigate: (tab: string) => void }) {
+export function DashboardView({ onNavigate }: { onNavigate: (tab: string, contextId?: string) => void }) {
   const [feed, setFeed] = useState<any[]>([]);
   const [page, setPage] = useState(1);
   const [playingVideo, setPlayingVideo] = useState<string | null>(null);
