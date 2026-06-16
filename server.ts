@@ -84,12 +84,12 @@ async function getDocumentText(fileId: string, mimeType: string, apiKey: string)
 
 app.get("/api/articles", async (req, res) => {
   try {
-    const { folderId: qFolderId, translateToEnglish } = req.query;
+    const { folderId: qFolderId, translateToEnglish, forceSync } = req.query;
     const defaultFolderId = "1pa7VGwBLaOMOzVnqdxqxrUFXinv5FId7"; // Default to the newly provided folder
     const folderId = (qFolderId as string) || process.env.GOOGLE_DRIVE_FOLDER_ID || defaultFolderId;
     
     // Serve from static file for the default folder
-    if (folderId === defaultFolderId) {
+    if (folderId === defaultFolderId && forceSync !== 'true') {
       try {
         const fs = require('fs');
         const articlesData = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'src/data/articles.json'), 'utf-8'));
@@ -141,7 +141,7 @@ app.get("/api/articles", async (req, res) => {
         const titles = articles.map(a => a.title);
         const prompt = `Translate the following Hebrew file and folder names into English. Return ONLY a JSON array of strings in the same order and length. Example: ["Translated 1", "Translated 2"]\n\nJSON strictly:\n${JSON.stringify(titles)}`;
         const response = await ai.models.generateContent({
-          model: "gemini-2.5-flash",
+          model: "gemini-2.0-flash",
           contents: prompt
         });
         const text = response.text || "[]";
@@ -215,7 +215,7 @@ Original Content:
 ${originalText}`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-2.0-flash",
       contents: prompt,
     });
     
@@ -274,7 +274,7 @@ app.post("/api/chat", async (req, res) => {
     contents.push({ role: 'user', parts: [{ text: message }] });
 
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-2.0-flash",
       contents: contents,
       config: {
         systemInstruction: systemInstruction

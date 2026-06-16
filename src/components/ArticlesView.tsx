@@ -22,12 +22,15 @@ export function ArticlesView({ onNavigate, initialArticleId }: { onNavigate?: (t
   const [errorMsg, setErrorMsg] = useState<string>('');
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({});
 
-  const fetchArticles = (targetFolderId?: string, isTranslate?: boolean) => {
+  const fetchArticles = (targetFolderId?: string, isTranslate?: boolean, forceSync: boolean = false) => {
     const idParam = targetFolderId !== undefined ? targetFolderId : folderId;
     
     setLoading(true);
     const transParam = isTranslate !== undefined ? isTranslate : translateTitles;
     let url = `/api/articles?translateToEnglish=${transParam}&folderId=${idParam}`;
+    if (forceSync) {
+      url += '&forceSync=true';
+    }
     
     fetch(url)
       .then((res) => res.json())
@@ -72,9 +75,9 @@ export function ArticlesView({ onNavigate, initialArticleId }: { onNavigate?: (t
 
   const handleSyncDrive = (e: React.FormEvent) => {
     e.preventDefault();
-    if (folderId) {
+    if (folderId || true) {
       setFolderHistory([]);
-      fetchArticles(folderId);
+      fetchArticles(folderId || undefined, undefined, true);
     }
   };
 
