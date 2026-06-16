@@ -1,12 +1,24 @@
 import { Router } from "express";
 import { GoogleGenAI } from "@google/genai";
 import * as mammoth from "mammoth";
-import dotenv from "dotenv";
 import { articlesData } from "../src/data/articlesData";
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-dotenv.config();
+// Only load dotenv in non-production environments
+if (process.env.NODE_ENV !== 'production') {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  
+  dotenv.config({ path: path.join(__dirname, '../.env') }); 
+}
 
 export const apiRouter = Router();
+
+// Debug Vercel Env Vars
+console.log("Environment check for Vercel: GEMINI_API_KEY is", process.env.GEMINI_API_KEY ? "Loaded (Length: " + process.env.GEMINI_API_KEY.length + ")" : "Missing");
+console.log("Environment check for Vercel: GOOGLE_DRIVE_API_KEY is", process.env.GOOGLE_DRIVE_API_KEY ? "Loaded" : "Missing");
 
 // Initialize Gemini
 function getGeminiClient() {
