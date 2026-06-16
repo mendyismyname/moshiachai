@@ -135,7 +135,11 @@ export function ArticlesView({ onNavigate, initialArticleId }: { onNavigate?: (t
       try {
         const data = JSON.parse(text);
         if (data.error) {
-          setTranslatedText(`Error: ${data.error}`);
+          let errMsg = data.error;
+          if (errMsg.includes("high demand") || errMsg.includes("503")) {
+            errMsg = "The model is currently experiencing high demand. Please try again later.";
+          }
+          setTranslatedText(`Error: ${errMsg}`);
         } else {
           setTranslatedText(data.translation || 'Translation failed.');
         }

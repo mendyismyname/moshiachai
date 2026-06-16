@@ -72,10 +72,18 @@ export function ChatView({ documentContextId, onClose }: { documentContextId?: s
       });
       const data = await res.json();
       
+      if (!res.ok) {
+        throw new Error(data.error || "An error occurred on the server.");
+      }
+      
       setMessages([...newContext, { role: 'model', content: data.response || "Sorry, I couldn't process that right now." }]);
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
-      setMessages([...newContext, { role: 'model', content: "An error occurred fetching the response." }]);
+      let errMsg = e.message || "An error occurred fetching the response.";
+      if (errMsg.includes("high demand") || errMsg.includes("503")) {
+        errMsg = "The model is currently experiencing high demand. Please try again later.";
+      }
+      setMessages([...newContext, { role: 'model', content: errMsg }]);
     }
     setLoading(false);
   };

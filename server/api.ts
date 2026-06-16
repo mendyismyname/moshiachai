@@ -150,7 +150,7 @@ apiRouter.get("/api/articles", async (req, res) => {
         const titles = articles.map(a => a.title);
         const prompt = `Translate the following Hebrew file and folder names into English. Return ONLY a JSON array of strings in the same order and length. Example: ["Translated 1", "Translated 2"]\n\nJSON strictly:\n${JSON.stringify(titles)}`;
         const response = await ai.models.generateContent({
-          model: "gemini-3.5-flash",
+          model: "gemini-2.5-flash",
           contents: prompt
         });
         const text = response.text || "[]";
@@ -210,7 +210,7 @@ Original Content:
 ${originalText}`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-2.5-flash",
       contents: prompt,
     });
     
@@ -264,7 +264,7 @@ apiRouter.post("/api/chat", async (req, res) => {
     contents.push({ role: 'user', parts: [{ text: message }] });
 
     const response = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-2.5-flash",
       contents: contents,
       config: {
         systemInstruction: systemInstruction
