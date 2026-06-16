@@ -8,7 +8,10 @@ import * as mammoth from "mammoth";
 dotenv.config();
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || (() => {
+  const portArgIdx = process.argv.indexOf('--port');
+  return portArgIdx !== -1 ? parseInt(process.argv[portArgIdx + 1], 10) : 3000;
+})();
 
 app.use(express.json());
 
