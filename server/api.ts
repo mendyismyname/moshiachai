@@ -4,14 +4,7 @@ import * as mammoth from "mammoth";
 import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
-
-let articlesData: any = { articles: [] };
-try {
-  articlesData = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'src/data/articles.json'), 'utf8'));
-} catch (e) {
-  console.error("Failed to load articles.json cache", e);
-}
-
+import articlesData from "../src/data/articles.json" with { type: "json" };
 
 dotenv.config();
 
