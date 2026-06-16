@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { MessageSquare, Send, Loader2, Sparkles, X } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const loadingSteps = [
+  "Checking 160+ sources...",
+  "Finding relevant articles...",
+  "Synthesizing information...",
+  "Processing answer..."
+];
 
 export function ChatView({ documentContextId, onClose }: { documentContextId?: string, onClose?: () => void }) {
   const defaultFolderId = '1pa7VGwBLaOMOzVnqdxqxrUFXinv5FId7';
@@ -10,6 +17,18 @@ export function ChatView({ documentContextId, onClose }: { documentContextId?: s
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [loadingMsgIdx, setLoadingMsgIdx] = useState(0);
+
+  useEffect(() => {
+    let interval: ReturnType<typeof setInterval>;
+    if (loading) {
+      setLoadingMsgIdx(0);
+      interval = setInterval(() => {
+        setLoadingMsgIdx(prev => Math.min(prev + 1, loadingSteps.length - 1));
+      }, 2000);
+    }
+    return () => clearInterval(interval);
+  }, [loading]);
 
   useEffect(() => {
     if (documentContextId && documentContextId !== defaultFolderId) {
@@ -22,7 +41,6 @@ export function ChatView({ documentContextId, onClose }: { documentContextId?: s
 
   const premadePrompts = [
     "What are the main concepts of Geulah discussed in these texts?",
-    "Can you summarize the specific document I am viewing?",
     "Explain the Third Temple architecture according to the articles.",
     "What acts of kindness are recommended to hasten redemption?"
   ];
@@ -109,8 +127,22 @@ export function ChatView({ documentContextId, onClose }: { documentContextId?: s
                      <div className="w-8 h-8 rounded-full bg-[#D9FF42] flex shrink-0 items-center justify-center mt-1">
                         <Sparkles className="text-black w-4 h-4" />
                      </div>
-                     <div className="p-4 bg-white border border-zinc-200 text-zinc-500 flex items-center gap-2 rounded-2xl rounded-tl-sm font-medium text-sm shadow-sm">
-                        <Loader2 className="w-4 h-4 animate-spin" /> Retrieving context...
+                     <div className="p-4 bg-white border border-zinc-200 text-zinc-500 flex items-center gap-3 rounded-2xl rounded-tl-sm font-medium text-sm shadow-sm min-w-[200px]">
+                        <Loader2 className="w-4 h-4 animate-spin shrink-0" /> 
+                        <div className="relative flex-1 h-5 overflow-hidden">
+                           <AnimatePresence mode="popLayout">
+                              <motion.span
+                                 key={loadingMsgIdx}
+                                 initial={{ opacity: 0, y: 10 }}
+                                 animate={{ opacity: 1, y: 0 }}
+                                 exit={{ opacity: 0, y: -10 }}
+                                 transition={{ duration: 0.3 }}
+                                 className="absolute inset-0 truncate text-zinc-600"
+                              >
+                                 {loadingSteps[loadingMsgIdx]}
+                              </motion.span>
+                           </AnimatePresence>
+                        </div>
                      </div>
                   </motion.div>
                 )}

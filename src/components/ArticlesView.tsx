@@ -199,15 +199,6 @@ export function ArticlesView({ onNavigate, initialArticleId }: { onNavigate?: (t
             Access 165+ translated articles on Geulah pulled directly from our database.
           </p>
         </div>
-        <div className="flex items-center gap-4">
-          <button
-            onClick={handleSyncDrive}
-            className="bg-zinc-100 hover:bg-zinc-200 text-zinc-800 px-6 py-3 rounded-full font-medium transition-colors flex items-center gap-2"
-          >
-            <RefreshCw size={18} className={loading ? "animate-spin" : ""} />
-            Sync Google Drive
-          </button>
-        </div>
       </div>
 
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
@@ -351,6 +342,13 @@ export function ArticlesView({ onNavigate, initialArticleId }: { onNavigate?: (t
           )}
         </motion.div>
       </div>
+      <button
+        onClick={handleSyncDrive}
+        className="text-transparent hover:text-zinc-200 transition-colors mx-auto mt-8 flex items-center justify-center p-2"
+        title="Sync Google Drive"
+      >
+        <RefreshCw size={12} className={loading ? "animate-spin" : ""} />
+      </button>
     </motion.div>
   );
 }
