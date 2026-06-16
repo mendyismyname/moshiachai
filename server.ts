@@ -1,5 +1,6 @@
 import express from "express";
 import path from "path";
+import fs from "fs";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
@@ -8,9 +9,12 @@ import * as mammoth from "mammoth";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || (() => {
+const PORT = (() => {
   const portArgIdx = process.argv.indexOf('--port');
-  return portArgIdx !== -1 ? parseInt(process.argv[portArgIdx + 1], 10) : 3000;
+  if (portArgIdx !== -1) {
+    return parseInt(process.argv[portArgIdx + 1], 10);
+  }
+  return process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 })();
 
 app.use(express.json());
@@ -94,7 +98,6 @@ app.get("/api/articles", async (req, res) => {
     // Serve from static file for the default folder
     if (folderId === defaultFolderId && forceSync !== 'true') {
       try {
-        const fs = require('fs');
         const articlesData = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'src/data/articles.json'), 'utf-8'));
         let finalArticles = articlesData.articles;
         
@@ -295,7 +298,10 @@ app.post("/api/chat", async (req, res) => {
 if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {
   async function startServer() {
     const vite = await createViteServer({
-      server: { middlewareMode: true },
+      server: { 
+        middlewareMode: true,
+        hmr: { port: 0 }
+      },
       appType: "spa",
     });
     app.use(vite.middlewares);

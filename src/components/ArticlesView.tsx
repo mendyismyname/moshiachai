@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
-import { Folder, FileText, Loader2, Languages, ArrowRight, ArrowLeft, BookOpen, Sparkles, MessageSquare } from 'lucide-react';
+import { Folder, FileText, Loader2, Languages, ArrowRight, ArrowLeft, BookOpen, Sparkles, MessageSquare, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import ReactMarkdown from 'react-markdown';
@@ -183,6 +183,15 @@ export function ArticlesView({ onNavigate, initialArticleId }: { onNavigate?: (t
             Access 165+ translated articles on Geulah pulled directly from our database.
           </p>
         </div>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={handleSyncDrive}
+            className="bg-zinc-100 hover:bg-zinc-200 text-zinc-800 px-6 py-3 rounded-full font-medium transition-colors flex items-center gap-2"
+          >
+            <RefreshCw size={18} className={loading ? "animate-spin" : ""} />
+            Sync Google Drive
+          </button>
+        </div>
       </div>
 
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
@@ -209,8 +218,10 @@ export function ArticlesView({ onNavigate, initialArticleId }: { onNavigate?: (t
                    <Loader2 className="animate-spin text-zinc-400 w-8 h-8" />
                 </div>
              ) : null}
-            {articles.length === 0 && !loading ? (
-              <div className="p-8 text-center text-zinc-400 font-medium">No items found.</div>
+            {errorMsg ? (
+              <div className="p-8 text-center text-red-500 font-medium bg-red-50 rounded-xl whitespace-pre-wrap">{errorMsg}</div>
+            ) : articles.length === 0 && !loading ? (
+              <div className="p-8 text-center text-zinc-400 font-medium">No items found in this folder. Make sure the folder is shared as 'Anyone with the link can view'.</div>
             ) : (
               articles.map(renderArticleBtn)
             )}
