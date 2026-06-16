@@ -14,6 +14,10 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get('/api/ping', (req, res) => {
+  res.json({ status: 'ok', runtime: process.version, vercel: !!process.env.VERCEL });
+});
+
 app.use(apiRouter);
 
 app.use('*', (req, res) => {

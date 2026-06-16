@@ -3,15 +3,11 @@ import { GoogleGenAI } from "@google/genai";
 import * as mammoth from "mammoth";
 import { articlesData } from "../src/data/articlesData";
 import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
-// Only load dotenv in non-production environments
-if (process.env.NODE_ENV !== 'production') {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = path.dirname(__filename);
-  
-  dotenv.config({ path: path.join(__dirname, '../.env') }); 
+try {
+  dotenv.config();
+} catch (e) {
+  // ignore
 }
 
 export const apiRouter = Router();
