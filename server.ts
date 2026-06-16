@@ -96,14 +96,29 @@ app.get("/api/articles", async (req, res) => {
     const folderId = (qFolderId as string) || process.env.GOOGLE_DRIVE_FOLDER_ID || defaultFolderId;
     
     // Serve from static file for the default folder
-    if (folderId === defaultFolderId && forceSync !== 'true') {
+    if ((folderId === defaultFolderId || folderId.startsWith('cached_folder_')) && forceSync !== 'true') {
       try {
         const articlesData = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'src/data/articles.json'), 'utf-8'));
-        let finalArticles = articlesData.articles;
+        const allArticles = articlesData.articles;
         
-        // If they don't want English, maybe we don't have the Hebrew easily inside the JSON but we can just return the English ones since it's cached, 
-        // or actually they just get the static cache. The JSON has the English titles when translated.
-        return res.json({ articles: finalArticles });
+        if (folderId === defaultFolderId) {
+          // Extract unique folders
+          const folderNames = [...new Set((allArticles as any[]).map(a => a.folder).filter(f => f))];
+          const folderObjects = folderNames.map((name: any) => ({
+            id: 'cached_folder_' + name,
+            title: name,
+            folder: 'folder',
+            language: 'en',
+            mimeType: 'application/vnd.google-apps.folder',
+            isFolder: true
+          }));
+          return res.json({ articles: folderObjects });
+        } else {
+          // Serve articles for specific cached folder
+          const folderName = folderId.replace('cached_folder_', '');
+          const articlesInFolder = allArticles.filter((a: any) => a.folder === folderName);
+          return res.json({ articles: articlesInFolder });
+        }
       } catch(e) {
         console.error('Failed to read articles cache:', e);
       }
