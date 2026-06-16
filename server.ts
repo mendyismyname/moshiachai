@@ -23,7 +23,7 @@ app.use(express.json());
 function getGeminiClient() {
   const key = process.env.GEMINI_API_KEY;
   if (!key) {
-    throw new Error('GEMINI_API_KEY is not set');
+    throw new Error('GEMINI_API_KEY is not set. Please add it to your environment variables or the AI Studio secrets panel.');
   }
   return new GoogleGenAI({ 
     apiKey: key,
@@ -147,7 +147,7 @@ app.get("/api/articles", async (req, res) => {
         const titles = articles.map(a => a.title);
         const prompt = `Translate the following Hebrew file and folder names into English. Return ONLY a JSON array of strings in the same order and length. Example: ["Translated 1", "Translated 2"]\n\nJSON strictly:\n${JSON.stringify(titles)}`;
         const response = await ai.models.generateContent({
-          model: "gemini-2.0-flash",
+          model: "gemini-3.5-flash",
           contents: prompt
         });
         const text = response.text || "[]";
@@ -219,7 +219,7 @@ Original Content:
 ${originalText}`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash",
+      model: "gemini-3.5-flash",
       contents: prompt,
     });
     
@@ -278,7 +278,7 @@ app.post("/api/chat", async (req, res) => {
     contents.push({ role: 'user', parts: [{ text: message }] });
 
     const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash",
+      model: "gemini-3.5-flash",
       contents: contents,
       config: {
         systemInstruction: systemInstruction
