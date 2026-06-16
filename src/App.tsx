@@ -101,12 +101,18 @@ export default function App() {
       </footer>
 
       {/* Floating Chat Button */}
-      <button 
-        onClick={() => setIsChatOpen(!isChatOpen)}
-        className="fixed bottom-24 sm:bottom-6 right-4 sm:right-6 w-14 h-14 bg-black text-white rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-transform z-50 pointer-events-auto border border-zinc-800"
-      >
-        {isChatOpen ? <X size={24} /> : <MessageSquare size={24} />}
-      </button>
+      <div className="fixed bottom-24 sm:bottom-6 right-4 sm:right-6 w-14 h-14 z-50 pointer-events-auto">
+        {/* Animated shader aura */}
+        <div className="absolute inset-0 bg-[#D9FF42] rounded-full blur-xl opacity-60 animate-shader-pulse pointer-events-none" />
+        <div className="absolute inset-0 bg-[#8AFF6C] rounded-full blur-lg opacity-40 animate-shader pointer-events-none" style={{ animationDelay: '-2s' }} />
+        
+        <button 
+          onClick={() => setIsChatOpen(!isChatOpen)}
+          className="relative w-full h-full bg-black text-white rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-transform border border-zinc-800"
+        >
+          {isChatOpen ? <X size={24} /> : <MessageSquare size={24} />}
+        </button>
+      </div>
 
       {/* Chat Popup */}
       <AnimatePresence>

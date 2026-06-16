@@ -170,7 +170,7 @@ export function ArticlesView({ onNavigate, initialArticleId }: { onNavigate?: (t
       className={`w-full text-left p-4 rounded-2xl flex items-center gap-4 transition-all duration-300 ${
         selectedArticle?.id === item.id
           ? 'bg-black text-white shadow-lg shadow-black/10 scale-[1.01]'
-          : 'hover:bg-zinc-50 bg-white border border-transparent hover:border-zinc-100 text-zinc-900 group'
+          : 'hover:bg-zinc-50 bg-white border border-transparent hover:border-zinc-100 text-zinc-900 group hover-animated-stroke'
       }`}
     >
       <div className="flex-1 min-w-0">

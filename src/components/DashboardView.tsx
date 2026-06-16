@@ -79,7 +79,8 @@ export function DashboardView({ onNavigate }: { onNavigate: (tab: string, contex
         <motion.div 
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-[#D9FF42] rounded-[2.5rem] p-8 md:p-12 flex flex-col justify-between relative overflow-hidden group h-full"
+          className="bg-[#D9FF42] rounded-[2.5rem] p-8 md:p-12 flex flex-col justify-between relative overflow-hidden group h-full cursor-pointer hover-animated-stroke"
+          onClick={() => onNavigate('articles')}
         >
           <div className="relative z-10 w-full max-w-lg">
             <div className="flex items-center gap-2 mb-6">
@@ -100,8 +101,10 @@ export function DashboardView({ onNavigate }: { onNavigate: (tab: string, contex
             </button>
           </div>
           
-          <div className="absolute top-0 right-0 p-8 flex items-center -space-x-4 opacity-50 mix-blend-multiply pointer-events-none">
-             <div className="w-64 h-64 bg-[#E8FF7A] rounded-full blur-3xl" />
+          <div className="absolute top-0 right-0 p-8 flex items-center justify-center opacity-70 mix-blend-multiply pointer-events-none w-full h-full">
+             <div className="absolute right-0 top-0 w-80 h-80 bg-[#E8FF7A] rounded-full blur-3xl animate-shader mix-blend-multiply" />
+             <div className="absolute right-32 top-10 w-96 h-96 bg-[#B5FF42] rounded-[100px] blur-3xl animate-shader mix-blend-multiply" style={{ animationDelay: '-3s' }} />
+             <div className="absolute right-64 top-0 w-72 h-72 bg-[#f0ffb5] rounded-full blur-3xl animate-shader-pulse mix-blend-multiply" style={{ animationDelay: '-6s' }} />
           </div>
         </motion.div>
       </div>
@@ -133,7 +136,7 @@ export function DashboardView({ onNavigate }: { onNavigate: (tab: string, contex
                 href="https://notebooklm.google.com/notebook/d6b710cf-4bac-4f07-ba8a-556c6bc81286"
                 target="_blank"
                 rel="noreferrer"
-                className="mb-6 break-inside-avoid bg-white border border-zinc-200 rounded-3xl p-8 hover:border-zinc-300 hover:shadow-md transition-all cursor-pointer block group"
+                className="mb-6 break-inside-avoid bg-white border border-zinc-200 rounded-3xl p-8 hover-animated-stroke hover:shadow-md transition-all cursor-pointer block group"
               >
                 <div className="w-12 h-12 bg-[#F8F9FA] rounded-2xl flex items-center justify-center mb-6 border border-zinc-100 group-hover:scale-105 transition-transform">
                    <BookOpen size={24} className="text-zinc-800" />
@@ -148,7 +151,7 @@ export function DashboardView({ onNavigate }: { onNavigate: (tab: string, contex
             return (
               <div 
                 key={item.key} 
-                className="mb-6 break-inside-avoid bg-white border border-zinc-100 rounded-3xl p-6 shadow-sm group cursor-pointer"
+                className="mb-6 break-inside-avoid bg-white border border-zinc-100 rounded-3xl p-6 shadow-sm hover-animated-stroke group cursor-pointer"
                 onClick={() => onNavigate('articles', item.data.id)}
               >
                 <div className="flex items-center justify-between mb-4">
@@ -163,7 +166,7 @@ export function DashboardView({ onNavigate }: { onNavigate: (tab: string, contex
           else if (item.type === 'video') {
             const isPlaying = playingVideo === item.data;
             return (
-              <div key={item.key} className="mb-6 break-inside-avoid bg-black border border-zinc-800 rounded-[2rem] overflow-hidden relative group cursor-pointer" onClick={() => !isPlaying && setPlayingVideo(item.data)}>
+              <div key={item.key} className="mb-6 break-inside-avoid bg-black border border-zinc-800 rounded-[2rem] overflow-hidden relative group cursor-pointer hover-animated-stroke" onClick={() => !isPlaying && setPlayingVideo(item.data)}>
                 <div className="aspect-video relative flex items-center justify-center transition-colors bg-zinc-900">
                    {isPlaying ? (
                      <iframe 
@@ -196,7 +199,7 @@ export function DashboardView({ onNavigate }: { onNavigate: (tab: string, contex
            }
           else if (item.type === 'quote') {
             return (
-              <div key={item.key} className="mb-6 break-inside-avoid bg-zinc-50 rounded-3xl p-8 shadow-inner border border-zinc-100">
+              <div key={item.key} className="mb-6 break-inside-avoid bg-zinc-50 rounded-3xl p-8 shadow-inner border border-zinc-100 hover-animated-stroke">
                  <Quote className="text-zinc-300 mb-4" size={32} />
                  <p className="text-xl font-medium text-zinc-900 tracking-tight leading-snug">
                    "{item.data}"
